@@ -62,7 +62,7 @@ public class Client extends AppCompatActivity {
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2500;
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
      * than this value.
@@ -180,10 +180,10 @@ public class Client extends AppCompatActivity {
 
     private void createLocationRequest() {
         mLocationRequest =  LocationRequest.create()
-                .setInterval(5000)
-                .setFastestInterval(2500)
+                .setInterval(2500)
+                .setFastestInterval(1250)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setMaxWaitTime(100);
+                .setMaxWaitTime(1000);
 
         // Sets the desired interval for active location updates. This interval is
         // inexact. You may not receive updates at all if no location sources are available, or

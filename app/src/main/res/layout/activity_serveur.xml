@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/teal_200"
         android:orientation="vertical"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,20 +55,20 @@
             android:textAlignment="center">
 
             <TextView
-                android:id="@+id/lon"
+                android:id="@+id/distanceserveur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Longitude: ___"
+                android:text="Distance:___"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
-                android:id="@+id/lat"
+                android:id="@+id/speedserveur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Latitude: ___"
+                android:text="Speed:___"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
         </LinearLayout>
@@ -77,10 +78,10 @@
             android:layout_height="20dp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/accelerationserveur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Average Speed"
+            android:text="Acceleraion:___"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="16sp" />
@@ -98,10 +99,10 @@
             android:layout_height="20dp" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/threshold_speed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Average Distance Covered"
+            android:layout_height="32dp"
+            android:text="treshold speed :___"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="16sp" />
@@ -117,6 +118,12 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="50dp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:text="FREIN" />
 
 
     </LinearLayout>
