@@ -78,13 +78,13 @@ public class Serveur extends AppCompatActivity {
 
 
                 // Ajouter les distances au tableau et incrementer la variable d'iteration
-                arrlist.add(first);
-                distance.setText("Distance: "+ first);
-                speed.setText("Speed: "+ BigDecimal.valueOf((first-second)/2.5).toPlainString());
+                arrlist.add(first*1000);
+                distance.setText("Distance: "+ first*1000);
+                speed.setText("Speed: "+ BigDecimal.valueOf(((first-second)/2.5)*1000).toPlainString());
                 double vi , vf ;
-                vi = ((third-fourth)/2.5);
-                vf = ((first-second)/2.5);
-                acceleration.setText("Acc : "+ BigDecimal.valueOf((vf-vi)/2.5));
+                vi = (((third-fourth)/2.5)*1000);
+                vf = (((first-second)/2.5)*1000);
+                acceleration.setText("Acc : "+ BigDecimal.valueOf(((vf-vi)/2.5)*1000));
                 Log.d("Taille", String.valueOf(arrlist.size()));
                 while (arrlist.size() > 3) {
                     while (speedArrList.size() > 2) {
