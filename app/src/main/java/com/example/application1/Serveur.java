@@ -81,10 +81,17 @@ public class Serveur extends AppCompatActivity {
                 arrlist.add(first*1000);
                 distance.setText("Distance: "+ first*1000);
                 speed.setText("Speed: "+ BigDecimal.valueOf(((first-second)/2.5)*1000).toPlainString());
-                double vi , vf ;
+                double vi , vf , acc;
                 vi = (((third-fourth)/2.5)*1000);
                 vf = (((first-second)/2.5)*1000);
-                acceleration.setText("Acc : "+ BigDecimal.valueOf(((vf-vi)/2.5)*1000));
+                acc = ((vf-vi)/2.5)*1000;
+                acceleration.setText("Acc : "+ BigDecimal.valueOf(acc));
+
+                if (acc>threshhold){
+                    notif_frein.setVisibility(View.VISIBLE);
+                    mDatabase.child("appVariables").child("brake").setValue("Freinnage Enclanché par Serveur");
+                }
+
                 Log.d("Taille", String.valueOf(arrlist.size()));
                 while (arrlist.size() > 3) {
                     while (speedArrList.size() > 2) {
@@ -94,7 +101,7 @@ public class Serveur extends AppCompatActivity {
                         Log.d(" TAG - Acc", String.valueOf(speedArrList.get((speedArrList).size()-1)- speedArrList.get((speedArrList.size()-2))));
                         acceleration.setText("Acceleration: "+BigDecimal.valueOf((((first-second)/2.5)-((third-fourth)/2.5))/2.5).toPlainString());
 
-                        if (speedArrList.get(speedArrList.size()-1)>threshhold){
+                        if (acc>threshhold){
                             notif_frein.setVisibility(View.VISIBLE);
                             mDatabase.child("appVariables").child("brake").setValue("Freinnage Enclanché par Serveur");
                         }
