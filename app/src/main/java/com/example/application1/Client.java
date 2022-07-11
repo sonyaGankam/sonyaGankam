@@ -2,6 +2,8 @@ package com.example.application1;
 
 import static android.content.ContentValues.TAG;
 
+import static java.lang.Double.NaN;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -159,13 +161,16 @@ public class Client extends AppCompatActivity {
                     longitude.setText(_longitude);
                     latitude.setText(_latitude);
                     double tempDist = distance(previousLocation.getLatitude(), previousLocation.getLongitude(),locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                    av_distace.setText(String.valueOf(tempDist));
-                    av_speed.setText(String.valueOf((tempDist)/5));
-                    Log.d("DISTANCE: ", String.valueOf(tempDist));
-                    Log.d("SPEED: ", String.valueOf(tempDist/5));
-                mCurrentLocation = locationResult.getLastLocation();
-                mDatabase.child("node").child("finalDistance").setValue(BigDecimal.valueOf(tempDist).toPlainString());
-                Log.d("DATABASE", "DATA Written to FIREBASE");
+                    if (tempDist == NaN){
+                        tempDist = 2.0;
+                    }else {
+                        av_distace.setText(String.valueOf(tempDist));
+                        av_speed.setText(String.valueOf((tempDist) / 5));
+                        Log.d("DISTANCE: ", String.valueOf(tempDist));
+                        Log.d("SPEED: ", String.valueOf(tempDist / 5));
+                        mCurrentLocation = locationResult.getLastLocation();
+                        mDatabase.child("node").child("finalDistance").setValue(String.valueOf(tempDist));
+                        Log.d("DATABASE", "DATA Written to FIREBASE");
 
                 /*get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
@@ -174,7 +179,7 @@ public class Client extends AppCompatActivity {
                     }
                 });*/
 
-
+                    }
             }
         };
 
