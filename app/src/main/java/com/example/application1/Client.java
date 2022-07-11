@@ -161,10 +161,10 @@ public class Client extends AppCompatActivity {
                     double tempDist = distance(previousLocation.getLatitude(), previousLocation.getLongitude(),locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                     av_distace.setText(String.valueOf(tempDist));
                     av_speed.setText(String.valueOf((tempDist)/5));
-                    Log.d("DISTANCE: ", String.valueOf(tempDist));
-                    Log.d("SPEED: ", String.valueOf(tempDist/5));
+                    Log.d("DISTANCE: ", BigDecimal.valueOf(tempDist).toPlainString());
+                    Log.d("SPEED: ", BigDecimal.valueOf(tempDist/5).toPlainString());
                 mCurrentLocation = locationResult.getLastLocation();
-                mDatabase.child("node").child("finalDistance").setValue(roundFiveDecimals(tempDist));
+                mDatabase.child("node").child("finalDistance").setValue(BigDecimal.valueOf(tempDist).toPlainString());
                 Log.d("DATABASE", "DATA Written to FIREBASE");
 
                 /*get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -411,10 +411,6 @@ public class Client extends AppCompatActivity {
         }
     }
 
-    public double roundFiveDecimals(double d) {
-        BigDecimal fiveDForm = new BigDecimal("#.#####");
-        return (double) fiveDForm.longValue();
-    }
 
 
 }
