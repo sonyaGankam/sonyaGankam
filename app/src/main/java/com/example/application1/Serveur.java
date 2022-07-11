@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.PrecomputedText;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +27,9 @@ import java.util.Map;
 
 public class Serveur extends AppCompatActivity {
     private DatabaseReference mDatabase;
-    TextView distance, speed, acceleration,treshold;
+    TextView distance, speed, acceleration,treshold, notif_frein;
+    static double first=0, second=0, third=0, fourth=0, threshhold=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class Serveur extends AppCompatActivity {
         speed = findViewById(R.id.speedserveur);
         acceleration = findViewById(R.id.accelerationserveur);
         treshold=findViewById(R.id.threshold_speed);
+        notif_frein = findViewById(R.id.notif_frein);
 
 
         // Creer Une array List ici
@@ -49,8 +55,9 @@ public class Serveur extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 double thresholdSpeed = Double.parseDouble(snapshot.child("thresholdSpeed").getValue().toString());
-                Log.d("Threshold Speed", "FINAL DISTANCE: " + thresholdSpeed);
-                treshold.setText(String.valueOf(thresholdSpeed));
+                Log.d("TAG", "THRESHOLD: " + thresholdSpeed);
+                threshhold = thresholdSpeed;
+                treshold.setText("Limite: "+thresholdSpeed);
             }
 
             @Override
@@ -63,23 +70,36 @@ public class Serveur extends AppCompatActivity {
         mDatabase.child("node").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                double finalDistance = Double.parseDouble(snapshot.child("finalDistance").getValue().toString());
-                Log.d("TAG", "FINAL DISTANCE: " + finalDistance);
+                fourth = third;
+                third = second;
+                second = first;
+                first = Double.parseDouble(snapshot.child("finalDistance").getValue().toString());
+                Log.d("TAG", "FINAL DISTANCE: " + first);
 
 
                 // Ajouter les distances au tableau et incrementer la variable d'iteration
-                arrlist.add(finalDistance);
+                arrlist.add(first);
+                distance.setText("Distance: "+ first);
                 Log.d("Taille", String.valueOf(arrlist.size()));
                 while (arrlist.size() > 4) {
                     while (speedArrList.size() > 2) {
-                        speedArrList.add((arrlist.get(arrlist.size() - 1) - arrlist.get(arrlist.size() - 2) / 2.5));
+                        speedArrList.add(first - second / 2.5);
+                        speed.setText("Speed: "+BigDecimal.valueOf(speedArrList.get(speedArrList.size()-1)).round(MathContext.DECIMAL32));
                         Log.d("SPEED", speedArrList.toString());
-                        speed.setText(String.valueOf(speedArrList.get(speedArrList.size() - 1)));
                         Log.d(" TAG - Acc", String.valueOf(speedArrList.get((speedArrList).size()-1)- speedArrList.get((speedArrList.size()-2))));
-                        speedArrList.remove(0);
+                        acceleration.setText("Acceleration: "+BigDecimal.valueOf((((first-second)/2.5)-((third-fourth)/2.5))/2.5).round(MathContext.DECIMAL32));
+
+                        if (speedArrList.get(speedArrList.size()-1)>threshhold){
+                            notif_frein.setVisibility(View.VISIBLE);
+                            mDatabase.child("appVariables").child("brake").setValue("Freinnage Enclanché par Serveur");
+                        }
+
                     }
+                    speedArrList.remove(0);
+
                 }
                 arrlist.remove(0);
+
 
 
             }

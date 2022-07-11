@@ -25,7 +25,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="serveur"
+            android:text="Serveur"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="24sp"
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Distance:___"
+                android:text="Distance : ___"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Speed:___"
+                android:text="Speed : ___"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
         </LinearLayout>
@@ -81,18 +81,10 @@
             android:id="@+id/accelerationserveur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Acceleraion:___"
+            android:text="Acc :___"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/av_speed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Speed: ___"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <Space
             android:layout_width="match_parent"
@@ -102,13 +94,13 @@
             android:id="@+id/threshold_speed"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:text="treshold speed :___"
+            android:text="Limit :___"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/dist"
+            android:id="@+id/dist_totale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Distance Covered:___"
@@ -124,6 +116,16 @@
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:text="FREIN" />
+
+        <TextView
+            android:id="@+id/notif_frein"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Freinnage Declanché"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

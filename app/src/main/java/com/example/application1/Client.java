@@ -24,15 +24,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.yayandroid.locationmanager.LocationManager;
-import com.yayandroid.locationmanager.configuration.DefaultProviderConfiguration;
-import com.yayandroid.locationmanager.configuration.GooglePlayServicesConfiguration;
-import com.yayandroid.locationmanager.configuration.LocationConfiguration;
-import com.yayandroid.locationmanager.configuration.PermissionConfiguration;
-import com.yayandroid.locationmanager.constants.ProviderType;
-import com.yayandroid.locationmanager.listener.LocationListener;
+import com.google.firebase.database.ValueEventListener;
 
 import android.Manifest;
 import android.app.Activity;
@@ -40,14 +35,14 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Objects;
 
 public class Client extends AppCompatActivity {
     private DatabaseReference mDatabase;
@@ -55,7 +50,7 @@ public class Client extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    TextView longitude, latitude, av_distace, av_speed;
+    TextView longitude, latitude, av_distace, av_speed, brakeText;
     Location currentLocation;
     private static final int REQUEST_CODE = 200;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
@@ -115,25 +110,37 @@ public class Client extends AppCompatActivity {
         setContentView(R.layout.activity_client);
         longitude = findViewById(R.id.lon);
         latitude = findViewById(R.id.lat);
-        av_distace = findViewById(R.id.dist);
+        av_distace = findViewById(R.id.dist_totale);
         av_speed = findViewById(R.id.av_speed);
+        brakeText = findViewById(R.id.brake_text);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mSettingsClient = LocationServices.getSettingsClient(this);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        DatabaseReference brakeRef = mDatabase.child("appVariables").child("brake");
         // Kick off the process of building the LocationCallback, LocationRequest, and
         // LocationSettingsRequest objects.
+        brakeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                brakeText.setText(Objects.requireNonNull(snapshot.getValue()).toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         createLocationRequest();
         createLocationCallback();
         buildLocationSettingsRequest();
         startLocationUpdates();
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        createLocationRequest();
-        createLocationCallback();
+        //createLocationRequest();
+        //createLocationCallback();
 
 
     }
@@ -159,7 +166,7 @@ public class Client extends AppCompatActivity {
                 mDatabase.child("node").child("finalDistance").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        sendToDB(Double.parseDouble(task.getResult().getValue().toString()), tempDist);
+                        sendToDB(tempDist);
                     }
                 });
 
@@ -169,9 +176,9 @@ public class Client extends AppCompatActivity {
 
     }
 
-    private void sendToDB(double initialDist, double finalDist) {
-        mDatabase.child("node").child("initialDistance").setValue(String.valueOf(initialDist));
-        mDatabase.child("node").child("finalDistance").setValue(String.valueOf(finalDist));
+    private void sendToDB( double finalDist) {
+        //mDatabase.child("node").child("initialDistance").setValue(String.valueOf(initialDist));
+        mDatabase.child("node").child("finalDistance").setValue(finalDist);
 
         Log.d("DATABASE", "DATA Written to FIREBASE");
 
