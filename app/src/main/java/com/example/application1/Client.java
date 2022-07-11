@@ -410,7 +410,4 @@ public class Client extends AppCompatActivity {
 
         }
     }
-
-
-
 }
