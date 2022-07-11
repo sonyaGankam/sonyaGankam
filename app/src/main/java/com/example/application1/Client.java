@@ -42,6 +42,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Client extends AppCompatActivity {
@@ -159,16 +160,19 @@ public class Client extends AppCompatActivity {
                     latitude.setText(_latitude);
                     double tempDist = distance(previousLocation.getLatitude(), previousLocation.getLongitude(),locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                     av_distace.setText(String.valueOf(tempDist));
-                    av_speed.setText(String.valueOf(tempDist/5));
+                    av_speed.setText(String.valueOf((tempDist)/5));
                     Log.d("DISTANCE: ", String.valueOf(tempDist));
                     Log.d("SPEED: ", String.valueOf(tempDist/5));
                 mCurrentLocation = locationResult.getLastLocation();
-                mDatabase.child("node").child("finalDistance").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                mDatabase.child("node").child("finalDistance").setValue(roundFiveDecimals(tempDist));
+                Log.d("DATABASE", "DATA Written to FIREBASE");
+
+                /*get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         sendToDB(tempDist);
                     }
-                });
+                });*/
 
 
             }
@@ -180,7 +184,6 @@ public class Client extends AppCompatActivity {
         //mDatabase.child("node").child("initialDistance").setValue(String.valueOf(initialDist));
         mDatabase.child("node").child("finalDistance").setValue(finalDist);
 
-        Log.d("DATABASE", "DATA Written to FIREBASE");
 
 
     }
@@ -406,6 +409,11 @@ public class Client extends AppCompatActivity {
         public Distance(){
 
         }
+    }
+
+    public double roundFiveDecimals(double d) {
+        BigDecimal fiveDForm = new BigDecimal("#.#####");
+        return (double) fiveDForm.longValue();
     }
 
 
