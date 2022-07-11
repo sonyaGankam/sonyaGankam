@@ -80,14 +80,19 @@ public class Serveur extends AppCompatActivity {
                 // Ajouter les distances au tableau et incrementer la variable d'iteration
                 arrlist.add(first);
                 distance.setText("Distance: "+ first);
+                speed.setText("Speed: "+ BigDecimal.valueOf((first-second)/2.5).toPlainString());
+                double vi , vf ;
+                vi = ((third-fourth)/2.5);
+                vf = ((first-second)/2.5);
+                acceleration.setText("Acc : "+ BigDecimal.valueOf((vf-vi)/2.5));
                 Log.d("Taille", String.valueOf(arrlist.size()));
-                while (arrlist.size() > 4) {
+                while (arrlist.size() > 3) {
                     while (speedArrList.size() > 2) {
                         speedArrList.add(first - second / 2.5);
-                        speed.setText("Speed: "+BigDecimal.valueOf(speedArrList.get(speedArrList.size()-1)).round(MathContext.DECIMAL32));
+                        speed.setText("Speed: "+BigDecimal.valueOf(speedArrList.get(speedArrList.size()-1)).toPlainString());
                         Log.d("SPEED", speedArrList.toString());
                         Log.d(" TAG - Acc", String.valueOf(speedArrList.get((speedArrList).size()-1)- speedArrList.get((speedArrList.size()-2))));
-                        acceleration.setText("Acceleration: "+BigDecimal.valueOf((((first-second)/2.5)-((third-fourth)/2.5))/2.5).round(MathContext.DECIMAL32));
+                        acceleration.setText("Acceleration: "+BigDecimal.valueOf((((first-second)/2.5)-((third-fourth)/2.5))/2.5).toPlainString());
 
                         if (speedArrList.get(speedArrList.size()-1)>threshhold){
                             notif_frein.setVisibility(View.VISIBLE);
@@ -95,10 +100,10 @@ public class Serveur extends AppCompatActivity {
                         }
 
                     }
-                    speedArrList.remove(0);
+                    //speedArrList.remove(0);
 
                 }
-                arrlist.remove(0);
+                //arrlist.remove(0);
 
 
 
