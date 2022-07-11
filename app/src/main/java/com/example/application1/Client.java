@@ -58,7 +58,7 @@ public class Client extends AppCompatActivity {
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2500;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 4000;
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
      * than this value.
@@ -164,7 +164,7 @@ public class Client extends AppCompatActivity {
                     Log.d("DISTANCE: ", String.valueOf(tempDist));
                     Log.d("SPEED: ", String.valueOf(tempDist/5));
                 mCurrentLocation = locationResult.getLastLocation();
-                mDatabase.child("node").child("finalDistance").setValue(BigDecimal.valueOf(tempDist).toPlainString());
+                mDatabase.child("node").child("finalDistance").setValue(String.valueOf(tempDist));
                 Log.d("DATABASE", "DATA Written to FIREBASE");
 
                 /*get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -190,10 +190,10 @@ public class Client extends AppCompatActivity {
 
     private void createLocationRequest() {
         mLocationRequest =  LocationRequest.create()
-                .setInterval(2500)
-                .setFastestInterval(1250)
+                .setInterval(5000)
+                .setFastestInterval(2500)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setMaxWaitTime(1000);
+                .setMaxWaitTime(5000);
 
         // Sets the desired interval for active location updates. This interval is
         // inexact. You may not receive updates at all if no location sources are available, or

@@ -93,13 +93,13 @@ public class Serveur extends AppCompatActivity {
                 }
 
                 Log.d("Taille", String.valueOf(arrlist.size()));
-                while (arrlist.size() > 3) {
-                    while (speedArrList.size() > 2) {
-                        speedArrList.add(first - second / 2.5);
-                        speed.setText("Speed: "+BigDecimal.valueOf(speedArrList.get(speedArrList.size()-1)).toPlainString());
+                while (arrlist.size() >= 1) {
+                    while (speedArrList.size() >= 1) {
+                        speedArrList.add(first - second / 5);
+                        speed.setText("Speed: "+BigDecimal.valueOf(first - second / 5).toPlainString());
                         Log.d("SPEED", speedArrList.toString());
-                        Log.d(" TAG - Acc", String.valueOf(speedArrList.get((speedArrList).size()-1)- speedArrList.get((speedArrList.size()-2))));
-                        acceleration.setText("Acceleration: "+BigDecimal.valueOf((((first-second)/2.5)-((third-fourth)/2.5))/2.5).toPlainString());
+                        Log.d(" TAG - Acc", String.valueOf((first - second / 5)-(third - fourth / 5)));
+                        acceleration.setText("Acceleration: "+BigDecimal.valueOf((((first-second)/5)-((third-fourth)/5))/5).toPlainString());
 
                         if (acc>threshhold){
                             notif_frein.setVisibility(View.VISIBLE);
